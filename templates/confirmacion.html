@@ -1,0 +1,16 @@
+<div class="contenedor" >
+    <h1 > Turno Confirmado</h1>
+    
+    <h2>Detalles de su Cita</h2>
+    
+    <div>
+        <p><strong>ID de Turno:</strong> <span >{{ turno_id }}</span></p>
+        <p><strong>Paciente:</strong> {{ nombre }}</p>
+        <p><strong>Especialidad:</strong> {{ especialidad }}</p>
+        <p><strong>Fecha y Hora:</strong> {{ fecha }}</p>
+    </div>
+    
+    <p>
+        <a href="{{ url_for('home') }}" class="boton-principal">Solicitar otro Turno</a>
+    </p>
+</div>

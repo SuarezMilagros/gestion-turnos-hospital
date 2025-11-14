@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitar Turno</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Solicitar Turno Médico</h1>
+        
+        <form action="{{ url_for('solicitarTurno') }}" method="POST">
+            
+            <label for="nombre">Nombre Completo:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="especialidad">Especialidad:</label>
+            <select id="especialidad" name="especialidad" required>
+                {% for esp in especialidades %}
+                    <option value="{{ esp }}">{{ esp }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="fecha">Fecha y Hora Preferida:</label>
+            <input type="datetime-local" id="fecha" name="fecha" required>
+            
+            <button type="submit" class="boton-principal">Confirmar Turno</button>
+        </form>
+
+        <p><a href="{{ url_for('home') }}">Volver al Inicio</a></p>
+    </div>
+</body>
+</html>
