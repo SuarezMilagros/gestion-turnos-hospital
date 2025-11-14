@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Médicos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Médicos</h1>
+    <a href="{{ url_for('nuevo_medico') }}" class="btn btn-primary">+ Nuevo Médico</a>
+</div>
+
+{% if medicos %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Apellido y Nombre</th>
+                    <th>Especialidad</th>
+                    <th>Matrícula</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medico in medicos %}
+                <tr>
+                    <td>{{ medico.id }}</td>
+                    <td>Dr/a. {{ medico.apellido }}, {{ medico.nombre }}</td>
+                    <td><span class="badge">{{ medico.especialidad }}</span></td>
+                    <td>{{ medico.matricula }}</td>
+                    <td>{{ medico.telefono or '-' }}</td>
+                    <td>{{ medico.email or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p>No hay médicos registrados</p>
+        <a href="{{ url_for('nuevo_medico') }}" class="btn btn-primary">Registrar Primer Médico</a>
+    </div>
+{% endif %}
+{% endblock %}

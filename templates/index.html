@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Resumen general del sistema</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-content">
+            <h3>{{ total_pacientes }}</h3>
+            <p>Pacientes Registrados</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">👨‍⚕️</div>
+        <div class="stat-content">
+            <h3>{{ total_medicos }}</h3>
+            <p>Médicos Activos</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-content">
+            <h3>{{ turnos_hoy }}</h3>
+            <p>Turnos Hoy</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">⏰</div>
+        <div class="stat-content">
+            <h3>{{ turnos_pendientes }}</h3>
+            <p>Turnos Pendientes</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2>Próximos Turnos</h2>
+        <a href="{{ url_for('nuevo_turno') }}" class="btn btn-primary">Nuevo Turno</a>
+    </div>
+    
+    {% if proximos_turnos %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Médico</th>
+                        <th>Especialidad</th>
+                        <th>Fecha y Hora</th>
+                        <th>Estado</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turno in proximos_turnos %}
+                    <tr>
+                        <td>{{ turno[1] }} {{ turno[2] }}</td>
+                        <td>Dr/a. {{ turno[3] }} {{ turno[4] }}</td>
+                        <td><span class="badge">{{ turno[5] }}</span></td>
+                        <td>{{ turno[6] }}</td>
+                        <td><span class="status status-{{ turno[7] }}">{{ turno[7] }}</span></td>
+                        <td>{{ turno[8] or '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="empty-state">No hay turnos próximos</p>
+    {% endif %}
+</div>
+{% endblock %}

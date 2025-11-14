@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Nuevo Médico{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Registrar Nuevo Médico</h1>
+</div>
+
+<div class="form-container">
+    <form method="POST" class="form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="apellido">Apellido *</label>
+                <input type="text" id="apellido" name="apellido" required>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="especialidad">Especialidad *</label>
+                <input type="text" id="especialidad" name="especialidad" required placeholder="ej: Cardiología">
+            </div>
+            
+            <div class="form-group">
+                <label for="matricula">Matrícula *</label>
+                <input type="text" id="matricula" name="matricula" required placeholder="ej: MN12345">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email">
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Registrar Médico</button>
+            <a href="{{ url_for('listar_medicos') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

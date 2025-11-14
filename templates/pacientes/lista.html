@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Pacientes{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Pacientes</h1>
+    <a href="{{ url_for('nuevo_paciente') }}" class="btn btn-primary">+ Nuevo Paciente</a>
+</div>
+
+{% if pacientes %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Apellido y Nombre</th>
+                    <th>DNI</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>{{ paciente.id }}</td>
+                    <td>{{ paciente.apellido }}, {{ paciente.nombre }}</td>
+                    <td>{{ paciente.dni }}</td>
+                    <td>{{ paciente.telefono or '-' }}</td>
+                    <td>{{ paciente.email or '-' }}</td>
+                    <td>
+                        <a href="{{ url_for('ver_paciente', id=paciente.id) }}" class="btn-small btn-info">Ver</a>
+                        <a href="{{ url_for('editar_paciente', id=paciente.id) }}" class="btn-small btn-warning">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p>No hay pacientes registrados</p>
+        <a href="{{ url_for('nuevo_paciente') }}" class="btn btn-primary">Registrar Primer Paciente</a>
+    </div>
+{% endif %}
+{% endblock %}

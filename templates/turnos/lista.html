@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Turnos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Gestión de Turnos</h1>
+    <a href="{{ url_for('nuevo_turno') }}" class="btn btn-primary">+ Nuevo Turno</a>
+</div>
+
+<div class="filters-bar">
+    <form method="GET" class="filters-form">
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" value="{{ fecha }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado">
+                <option value="">Todos</option>
+                <option value="pendiente" {% if estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="confirmado" {% if estado == 'confirmado' %}selected{% endif %}>Confirmado</option>
+                <option value="completado" {% if estado == 'completado' %}selected{% endif %}>Completado</option>
+                <option value="cancelado" {% if estado == 'cancelado' %}selected{% endif %}>Cancelado</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+</div>
+
+{% if turnos %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Paciente</th>
+                    <th>Teléfono</th>
+                    <th>Médico</th>
+                    <th>Especialidad</th>
+                    <th>Duración</th>
+                    <th>Estado</th>
+                    <th>Motivo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for turno in turnos %}
+                <tr>
+                    <td><strong>{{ turno[8][11:16] }}</strong></td>
+                    <td>{{ turno[1] }} {{ turno[2] }}<br><small>{{ turno[3] }}</small></td>
+                    <td>{{ turno[4] or '-' }}</td>
+                    <td>Dr/a. {{ turno[5] }} {{ turno[6] }}</td>
+                    <td><span class="badge">{{ turno[7] }}</span></td>
+                    <td>{{ turno[9] }} min</td>
+                    <td><span class="status status-{{ turno[10] }}">{{ turno[10] }}</span></td>
+                    <td>{{ turno[11] or '-' }}</td>
+                    <td>
+                        {% if turno[10] == 'pendiente' %}
+                        <form method="POST" action="{{ url_for('actualizar_estado_turno', id=turno[0]) }}">
+                            <input type="hidden" name="estado" value="confirmado">
+                            <button type="submit" class="btn-small btn-success">Confirmar</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('cancelar_turno', id=turno[0]) }}">
+                            <button type="submit" class="btn-small btn-danger">Cancelar</button>
+                        </form>
+                        {% elif turno[10] == 'confirmado' %}
+                        <form method="POST" action="{{ url_for('actualizar_estado_turno', id=turno[0]) }}">
+                            <input type="hidden" name="estado" value="completado">
+                            <button type="submit" class="btn-small btn-info">Completar</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p>No hay turnos para la fecha seleccionada</p>
+    </div>
+{% endif %}
+{% endblock %}
